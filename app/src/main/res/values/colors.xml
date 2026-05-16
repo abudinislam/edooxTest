@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1976D2</color>
+    <color name="colorPrimaryVariant">#004BA0</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FF8F00</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorBackground">#F0F4F8</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#1A1A2E</color>
+    <color name="colorCorrect">#2E7D32</color>
+    <color name="colorIncorrect">#C62828</color>
+    <color name="colorMath">#1565C0</color>
+    <color name="colorHistory">#5D4037</color>
+    <color name="colorBiology">#2E7D32</color>
+    <color name="colorKazakh">#E65100</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray_light">#EEEEEE</color>
+    <color name="gray_medium">#757575</color>
+    <color name="colorProgressTrack">#BBDEFB</color>
+</resources>
