@@ -53,6 +53,7 @@ class QuizRepository {
 
             val cleanText = text.trimMarkdownFences()
             val questionsResponse = gson.fromJson(cleanText, QuestionsResponse::class.java)
+            validateGeneratedQuestions(questionsResponse.questions)
             val questions = questionsResponse.questions.map { it.toQuestion() }
             Result.success(questions)
         } catch (e: HttpException) {
@@ -128,7 +129,7 @@ class QuizRepository {
 
     private fun buildGenerationPrompt(subject: String): String = """
 Создай ровно 5 экзаменационных заданий по предмету "$subject" для казахстанских школьников (уровень ЕНТ).
-Строго: 2 задания типа multiple_choice, 2 типа open_ended, 1 типа matching. Все тексты на русском языке.
+Используй только типы multiple_choice, open_ended и matching. В итоговом наборе обязательно должны присутствовать все три типа вопросов, но конкретное распределение между ними выбери самостоятельно. Не копируй буквальную раскладку из тестового задания, если в этом нет необходимости. Все тексты на русском языке.
 Верни ТОЛЬКО валидный JSON (без markdown, без пояснений):
 {
   "questions": [
@@ -162,6 +163,23 @@ class QuizRepository {
   ]
 }
     """.trimIndent()
+
+    private fun validateGeneratedQuestions(questions: List<QuestionRaw>) {
+        require(questions.size == 5) {
+            "Gemini вернул ${questions.size} вопросов вместо 5."
+        }
+
+        val allowedTypes = setOf("multiple_choice", "open_ended", "matching")
+        val actualTypes = questions.map { it.type }.toSet()
+
+        require(actualTypes.all { it in allowedTypes }) {
+            "Gemini вернул неподдерживаемый тип вопроса."
+        }
+
+        require(allowedTypes.all { it in actualTypes }) {
+            "Тест должен содержать все три типа вопросов: multiple_choice, open_ended и matching."
+        }
+    }
 
     private fun buildEvaluationPrompt(
         question: String,

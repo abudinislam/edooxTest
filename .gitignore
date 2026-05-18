@@ -8,3 +8,6 @@ app/build/
 captures/
 .externalNativeBuild/
 .cxx/
+TASK_LOG.md
+TASK_PLAN.md
+.claude/

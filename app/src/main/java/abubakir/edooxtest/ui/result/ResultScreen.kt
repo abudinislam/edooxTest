@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,6 +37,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.preview.Preview
+import abubakir.edooxtest.ui.theme.EdooxTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -89,7 +93,7 @@ fun ResultScreen(
         bottomBar = {
             Surface(shadowElevation = 8.dp) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(12.dp),
+                    modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(12.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     OutlinedButton(
@@ -268,4 +272,46 @@ private fun ResultItem(result: QuestionResult, index: Int, expanded: Boolean, on
 private fun DetailRow(label: String, value: String, valueColor: Color = MaterialTheme.colorScheme.onSurface) {
     Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), fontWeight = FontWeight.Bold)
     Text(value, style = MaterialTheme.typography.bodySmall, color = valueColor, modifier = Modifier.padding(top = 2.dp))
+}
+
+private val previewResults = listOf(
+    QuestionResult(
+        questionText = "Чему равна производная функции f(x) = x²?",
+        questionType = "multiple_choice",
+        userAnswerText = "2x",
+        correctAnswerText = "2x",
+        isCorrect = true,
+        feedback = "Производная степенной функции по правилу (xⁿ)' = n·xⁿ⁻¹."
+    ),
+    QuestionResult(
+        questionText = "Объясните теорему Пифагора своими словами.",
+        questionType = "open_ended",
+        userAnswerText = "a плюс b равно c",
+        correctAnswerText = "В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.",
+        isCorrect = false,
+        feedback = "Ответ неполный — необходимо указать квадраты и упомянуть прямой угол."
+    ),
+    QuestionResult(
+        questionText = "Сопоставьте понятия с определениями.",
+        questionType = "matching",
+        userAnswerText = "Интеграл → Обратная производная\nПредел → Значение при x → a",
+        correctAnswerText = "Интеграл → Обратная производная\nПредел → Значение при x → a",
+        isCorrect = true,
+        feedback = "Все пары сопоставлены верно."
+    )
+)
+
+@Preview(showBackground = true, name = "Result Screen")
+@Composable
+private fun ResultScreenPreview() {
+    val vm = remember { ResultViewModel().also { it.init(previewResults) } }
+    EdooxTheme {
+        ResultScreen(
+            results = previewResults,
+            subject = "Математика",
+            viewModel = vm,
+            onRetry = {},
+            onHome = {}
+        )
+    }
 }

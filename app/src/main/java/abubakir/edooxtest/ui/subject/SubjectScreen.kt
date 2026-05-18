@@ -41,6 +41,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.preview.Preview
+import abubakir.edooxtest.ui.theme.EdooxTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -243,6 +245,20 @@ private fun MetricPill(title: String, caption: String, modifier: Modifier = Modi
             Text(text = title, style = MaterialTheme.typography.titleMedium, color = Ink)
             Text(text = caption, style = MaterialTheme.typography.bodySmall, color = MutedInk)
         }
+    }
+}
+
+@Preview(showBackground = true, name = "Subject Screen")
+@Composable
+private fun SubjectScreenPreview() {
+    val vm = remember { SubjectViewModel() }
+    EdooxTheme {
+        SubjectScreen(
+            viewModel = vm,
+            autoRetrySubject = null,
+            onAutoRetryConsumed = {},
+            onNavigateToTest = { _, _ -> }
+        )
     }
 }
 

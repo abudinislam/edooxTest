@@ -44,6 +44,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.tooling.preview.Preview
+import abubakir.edooxtest.ui.theme.EdooxTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -377,6 +379,74 @@ private fun MatchingView(
                 }
             )
         }
+    }
+}
+
+private val previewMcQuestion = Question.MultipleChoice(
+    id = "1",
+    text = "Чему равна производная функции f(x) = x²?",
+    options = listOf("x", "2x", "x²", "2"),
+    correctAnswer = "2x",
+    explanation = "Производная x² = 2x."
+)
+
+private val previewOpenQuestion = Question.OpenEnded(
+    id = "2",
+    text = "Объясните теорему Пифагора своими словами.",
+    sampleAnswer = "В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.",
+    explanation = ""
+)
+
+private val previewMatchingQuestion = Question.Matching(
+    id = "3",
+    text = "Сопоставьте математические понятия с определениями.",
+    pairs = listOf(
+        MatchPair("Интеграл", "Обратная производная"),
+        MatchPair("Предел", "Значение функции при x → a"),
+        MatchPair("Матрица", "Прямоугольная таблица чисел")
+    ),
+    explanation = ""
+)
+
+@Preview(showBackground = true, name = "Test — Multiple Choice")
+@Composable
+private fun TestScreenMcPreview() {
+    val vm = remember { TestViewModel().also { it.init(listOf(previewMcQuestion, previewOpenQuestion)) } }
+    EdooxTheme {
+        TestScreen(
+            questions = listOf(previewMcQuestion, previewOpenQuestion),
+            viewModel = vm,
+            onFinished = {},
+            onBack = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Test — Open Ended")
+@Composable
+private fun TestScreenOpenPreview() {
+    val vm = remember { TestViewModel().also { it.init(listOf(previewOpenQuestion, previewMcQuestion)) } }
+    EdooxTheme {
+        TestScreen(
+            questions = listOf(previewOpenQuestion, previewMcQuestion),
+            viewModel = vm,
+            onFinished = {},
+            onBack = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Test — Matching")
+@Composable
+private fun TestScreenMatchingPreview() {
+    val vm = remember { TestViewModel().also { it.init(listOf(previewMatchingQuestion)) } }
+    EdooxTheme {
+        TestScreen(
+            questions = listOf(previewMatchingQuestion),
+            viewModel = vm,
+            onFinished = {},
+            onBack = {}
+        )
     }
 }
 
